@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/zhoukang/projects/threadpool/CThreadPool.cpp
+CThreadPool.h
+/home/zhoukang/projects/threadpool/CThreadPool.h
+signal.h
+-
+
+/home/zhoukang/projects/threadpool/CThreadPool.h
+thread
+/home/zhoukang/projects/threadpool/thread
+pthread.h
+-
+vector
+-
+mutex
+-
+condition_variable
+-
+
+/home/zhoukang/projects/threadpool/main.cpp
+iostream
+-
+CThreadPool.h
+/home/zhoukang/projects/threadpool/CThreadPool.h
+unistd.h
+-
+
