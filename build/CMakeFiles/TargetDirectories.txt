@@ -1,3 +1,0 @@
-/home/zhoukang/projects/threadpool/build/CMakeFiles/edit_cache.dir
-/home/zhoukang/projects/threadpool/build/CMakeFiles/rebuild_cache.dir
-/home/zhoukang/projects/threadpool/build/CMakeFiles/threadpool.dir
