@@ -117,6 +117,17 @@ void CThreadPool::PrintThreads()
     }
 }
 
+CThreadPool &CThreadPool::GetInstance()
+{
+    static CThreadPool pool;
+    return pool;
+}
+
+CThreadPool::~CThreadPool()
+{
+    Release();
+}
+
 template<typename T>
 Queue<T>::Queue(int c):capacity(c), size(0), head(0), tail(0)
 {

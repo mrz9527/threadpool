@@ -52,6 +52,13 @@ private:
     void Reset();
 };
 
+class NoCopy{
+public:
+    NoCopy()=default;      //使用合成的默认构造函数
+    NoCopy(const NoCopy&)=delete;  //阻止拷贝
+    NoCopy &operator=(const NoCopy&)=delete; //阻止赋值
+    ~NoCopy()=default; //使用合成的析构函数
+};
 
 // 实现固定大小线程池
 // 1.工作的线程池大小固定，不需要管理者线程来管理
@@ -63,7 +70,7 @@ private:
 
 // 线程池退出
 // 1.Release，内部通过pthread_cancel的方式取消子线程
-class CThreadPool {
+class CThreadPool : public NoCopy {
     using TaskQ = Queue<Task>;
 private:
     // 池子大小
@@ -86,17 +93,24 @@ private:
 
 
 public:
-    explicit CThreadPool(int pool_size, int taskQ_capacity);
+    static CThreadPool& GetInstance();
+
+
     bool AddTask(Function function, void* argc);
     void Start();       // 启动线程
     void Wait();        // 等待任务结束
-    void Release();     // 结束线程池
+
+
+    ~CThreadPool();
 
     void PrintThreads();
 
 private:
     static void* Work(void* arg);
     static void CleanupHandler(void* arg);
+
+    explicit CThreadPool(int pool_size = 4, int taskQ_capacity = 100);
+    void Release();     // 结束线程池
 };
 
 
