@@ -72,20 +72,37 @@ void *CThreadPool::Work(void *arg)
     pthread_exit(0);
 }
 
-void CThreadPool::Start()
-{
-    unique_lock lockTask(mutexTask);
-    start = true;
-    condStart.notify_all();
-
-    //printf("CThreadPool::Start() called\n");
-    //printf("pool->taskQ.Size() = %d, start = %d\n", taskQ.Size(), start);
-}
-
 void CThreadPool::Wait()
 {
-    std::unique_lock<std::mutex> lock(mutexEnd);
-    condEnd.wait(lock);
+    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    {
+        unique_lock lockTask(mutexTask);
+
+        if (taskQ.Size() == 0) {
+            return;
+        }
+
+        start = true;
+        condStart.notify_all();
+    }
+
+    while(true) {
+        bool flag = false;
+        {
+            std::unique_lock<std::mutex> lockTask(mutexTask);
+            flag = start;
+        }
+
+        // 如果主线程先阻塞在condEnd.wait(lockEnd)，当工作线程工作完后，会唤醒主线程条件变量condEnd
+        // 如果工作线程先完成工作，唤醒主线程条件变量condEnd，但是主线程条件变量condEnd还没有执行到，此时是无效唤醒，condEnd会一直阻塞。
+        // 如果工作线程先完成工作，start一定为false，此时通过start==false来break
+        if (flag == true) {
+            std::unique_lock<std::mutex> lockEnd(mutexEnd);
+            condEnd.wait(lockEnd);
+        }
+
+        break;
+    }
 }
 
 void CThreadPool::Release()

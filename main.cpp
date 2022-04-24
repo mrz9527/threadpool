@@ -54,10 +54,8 @@ void demo() {
     //printf("ps -xH/top -H查看所有线程，按任意键，开启线程池任务\n");
     //getchar();
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(1));
     //threadPool.Start();
     //threadPool.Wait();
-    CThreadPool::GetInstance().Start();
     CThreadPool::GetInstance().Wait();
     printf("第一波任务结束，开始第二波任务\n------------------------\n");
 
@@ -71,10 +69,8 @@ void demo() {
     //printf("ps -xH/top -H查看所有线程，按任意键，开启线程池任务\n");
     //getchar();
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(1));
     //threadPool.Start();
     //threadPool.Wait();
-    CThreadPool::GetInstance().Start();
     CThreadPool::GetInstance().Wait();
     printf("第二波任务结束\n------------------------\n");
 

@@ -97,8 +97,7 @@ public:
 
 
     bool AddTask(Function function, void* argc);
-    void Start();       // 启动线程
-    void Wait();        // 等待任务结束
+    void Wait();        // 启动任务，并等待任务结束
 
 
     ~CThreadPool();
